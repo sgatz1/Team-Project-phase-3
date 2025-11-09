@@ -4,72 +4,53 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class keeps track of trusted reviewers and their weight values.
- * A higher weight means the reviewer is more trusted or helpful.
+ * Keeps track of trusted reviewers and their trust value (weight)
  */
 public class TrustedReviewerList {
 
-    // stores reviewer name -> weight value
+    // stores each reviewer name and their weight value
     private Map<String, Integer> trustedMap;
 
-    // constructor initializes the map
+    // creates the map when this class is made
     public TrustedReviewerList() {
         trustedMap = new HashMap<>();
     }
 
-
-
-      @param reviewerName the name of the reviewer
-      @param weight
-
-     // a category of weightage. the higher the weight the more reliable the reviewer is and trusted they r.
+    // add a reviewer and give them a weight
     public void addTrustedReviewer(String reviewerName, int weight) {
         trustedMap.put(reviewerName, weight);
     }
 
-     // eradicates  a reviewer from the trusted list.
-     @param reviewerName
-
+    // remove a reviewer from the list
     public void removeTrustedReviewer(String reviewerName) {
         trustedMap.remove(reviewerName);
     }
 
-    // retrieves the trust weight
-
-    // name of the reviewer themselves
-      @param reviewerName
-      @return
-
-     // assigns the weight of 0 if there is no weight to be dedicated to the reviewer
+    // get the weight value for a reviewer (0 if not found)
     public int getReviewerWeight(String reviewerName) {
         return trustedMap.getOrDefault(reviewerName, 0);
     }
 
-      @param reviewerName the name of the reviewer
-      @param newWeight the new weight value
-
-     // the new weight value
-     // the name or identifier of the reviewer
-     // update of the value for the specific reviewer
+    // update the weight for a reviewer if they already exist
     public void updateWeight(String reviewerName, int newWeight) {
         if (trustedMap.containsKey(reviewerName)) {
             trustedMap.put(reviewerName, newWeight);
         }
     }
 
-   // prints the demo trusted reviewers and their weightage
+    // print out all reviewers and their weights
     public void printTrustedReviewers() {
         for (String name : trustedMap.keySet()) {
             System.out.println(name + " -> Weight: " + trustedMap.get(name));
         }
     }
 
-   // clears and re-initates the entire reviewer list if needed
+    // clear all reviewers from the list
     public void clearAll() {
         trustedMap.clear();
     }
-// returns the map of all the reviewers thus far into the application, i left this as a demo - aziz
-     @return
+
+    // return the full map of trusted reviewers
     public Map<String, Integer> getTrustedMap() {
         return trustedMap;
     }

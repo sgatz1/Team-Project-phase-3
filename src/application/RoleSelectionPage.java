@@ -7,42 +7,36 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
- //The RoleSelectionPage class shows a simple dropdown menu
-// that lets a user pick their role (Admin, Student, Reviewer, or Staff).
- // upon selection, it updates the role in the database and redirects our users
+// This page lets the user pick their role (Admin, Student, Reviewer, or Staff)
+// After they pick, it updates their role in the database and sends them to the right page
 public class RoleSelectionPage {
 
     private final DatabaseHelper db;
     private final String username;
 
-
-     @param d // the db helper  used for database actions
-     @param user // user name of the logged in user display
+    // gets the database helper and current username
     public RoleSelectionPage(DatabaseHelper d, String user) {
         this.db = d;
         this.username = user;
     }
 
-     // role selection screen for the user to handle re-direction to the  application
-    @param stage the main application window
-
+    // shows the role selection screen
     public void show(Stage stage) {
-        // title and labeling setup
+        // main title and small prompt text
         Label lblTitle = new Label("Select Your Role");
         lblTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-
         Label lblPrompt = new Label("Choose your role for this account:");
 
-        // box with all available roles to select based on intended use
+        // dropdown with available roles
         ComboBox<String> cmbRoles = new ComboBox<>();
         cmbRoles.getItems().addAll("Admin", "Student", "Reviewer", "Staff");
         cmbRoles.setPromptText("Select a Role");
 
-        // confirm  button and status label
+        // confirm button and label to show status
         Button btnConfirm = new Button("Confirm");
         Label lblStatus = new Label();
 
-        // action for confrim button
+        // when confirm is clicked
         btnConfirm.setOnAction(e -> {
             String selectedRole = cmbRoles.getValue();
             if (selectedRole == null) {
@@ -50,11 +44,12 @@ public class RoleSelectionPage {
                 return;
             }
 
+            // update role in the database
             boolean ok = db.updateUserRole(username, selectedRole);
             if (ok) {
                 lblStatus.setText("Role assigned: " + selectedRole);
 
-                // redirects users to correct page based on chosen role
+                // open the correct home page for the selected role
                 switch (selectedRole.toLowerCase()) {
                     case "admin":
                         AdminHomePage aPage = new AdminHomePage(db);
@@ -62,7 +57,6 @@ public class RoleSelectionPage {
                         break;
 
                     case "student":
-                        // NEW: Show our new TP3 Student page
                         StudentDashboard dash = new StudentDashboard(stage, db, username);
                         dash.show(stage);
                         break;
@@ -85,12 +79,12 @@ public class RoleSelectionPage {
             }
         });
 
-        // layout and styling
+        // layout setup
         VBox root = new VBox(15, lblTitle, lblPrompt, cmbRoles, btnConfirm, lblStatus);
         root.setPadding(new Insets(20));
         root.setStyle("-fx-alignment: center;");
 
-        // creating gui backdrop
+        // make the window
         Scene scene = new Scene(root, 400, 250);
         stage.setScene(scene);
         stage.setTitle("Role Selection");
