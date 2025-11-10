@@ -1,0 +1,18 @@
+﻿# build outputs
+/bin/
+/out/
+/target/
+*.class
+
+# IDE
+.idea/
+/.vscode/
+
+# local H2 DB files
+database/**
+
+# OS junk
+.DS_Store
+
+# logs
+*.log
